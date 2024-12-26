@@ -1,1 +1,0 @@
-# pavry.github.io
