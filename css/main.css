@@ -1,0 +1,130 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: system-ui;
+    width: 100%;
+    min-height: 100vh;
+    background: #fdfdfd;
+    overflow: hidden;
+}
+
+.card {
+    margin: 100px auto 0;
+    width: 500px;
+    height: 350px; 
+    perspective: 1000px;
+}
+
+.card__inner {
+    width: 100%;
+    height: 100%;
+    transition: transform 1s;
+    transform-style: preserve-3d;
+    cursor: pointer;
+    position: relative;
+}
+
+.card__inner.is-flipped {
+    transform: rotateY(180deg)
+}
+
+.card__face {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    overflow: hidden;
+    border-radius: 16px;
+    box-shadow: 0px 3px 18px rgb(0, 0, 0, 0.2);
+}
+
+.card__face--front {
+    background-color: #fbcb4a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.card__face--front h2 {
+    color: #86691a;
+    font-size: 35px;
+    text-align: center;
+    padding-top: 10px;
+    width: 421px;
+}
+
+.card__face--front h1 {
+    color: #ce9f20;
+    font-size: 35px;
+    text-align: center;
+}
+
+.card__face--back {
+    background-color: #ffffff;
+    border: 1rem solid #fbcb4a;
+    transform: rotateY(180deg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.card__face--back p{
+    color: #86691a;
+    font-size: 25px;
+    text-align: center;
+    width: 421px;
+    
+}
+
+input[type=file]::file-selector-button {
+    margin-right: 20px;
+    border: none;
+    background: #fbcb4a;
+    padding: 10px 20px;
+    border-radius: 5px;
+    color: #86691a;
+    cursor: pointer;
+    transition: background .2s ease-in-out;
+  }
+  
+  input[type=file]::file-selector-button:hover {
+    color: #ffffff;
+  }
+
+  .option {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 50px;
+  }
+
+@media (max-width: 700px) {
+    .card {
+        margin: 50px auto 0;
+        width: 330px;
+        height: 278px;
+        perspective: 1000px;
+    }
+
+    .card__face--back {
+        border: 8px solid #fbcb4a;
+    }
+
+    .card__face--front h2 {
+        font-size: 21px;
+        width: 250px;
+    }
+
+    .card__face--front h1 {
+        font-size: 21px;
+    }
+
+    .card__face--back p {
+        font-size: 16px;
+        width: 250px;
+    }
+}
