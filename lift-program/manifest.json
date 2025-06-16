@@ -1,0 +1,15 @@
+{
+  "name": "Lift Program",
+  "short_name": "Lift",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#3f51b5",
+  "icons": [
+    {
+      "src": "/icons/icon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
