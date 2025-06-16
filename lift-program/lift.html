@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <html lang="uk">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Lift Program + 1RM Calculator + Hirvis Bench</title>
   <style>
     body {
       font-family: sans-serif;
       background: #f2f2f2;
       padding: 20px;
+      margin: 0;
     }
     .container {
       background: #fff;
@@ -17,11 +19,14 @@
       margin: auto;
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
       text-align: center;
+      box-sizing: border-box;
     }
     table {
       width: 100%;
       border-collapse: collapse;
       margin-top: 20px;
+      table-layout: fixed;
+      word-wrap: break-word;
     }
     th, td {
       padding: 10px;
@@ -31,67 +36,99 @@
     input, button {
       padding: 10px;
       font-size: 1rem;
-      margin: 5px;
+      margin: 5px 0;
+      width: 100%;
+      box-sizing: border-box;
+      border-radius: 4px;
+      border: 1px solid #ccc;
     }
     h2 {
       text-align: center;
+      margin-top: 0;
+    }
+
+    /* Горизонтальний скрол для таблиць на мобільних */
+    .table-wrapper {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch; /* плавний скрол на iOS */
+      margin-top: 10px;
+    }
+
+    /* Менший відступ на мобільних */
+    @media (max-width: 600px) {
+      body {
+        padding: 10px;
+      }
+      .container {
+        padding: 15px;
+        max-width: 100%;
+      }
+      input, button {
+        font-size: 1.1rem;
+      }
     }
   </style>
 </head>
 <body>
   <div class="container">
     <h2>1RM Калькулятор</h2>
-    <input type="number" id="weight" placeholder="Вага (кг)">
-    <input type="number" id="reps" placeholder="Повторення">
+    <input type="number" id="weight" placeholder="Вага (кг)" />
+    <input type="number" id="reps" placeholder="Повторення" />
     <button onclick="calculate1RM()">Розрахувати 1RM</button>
 
-    <table id="rmTable" style="display: none;">
-      <thead>
-        <tr>
-          <th>Формула</th>
-          <th>Оцінка 1RM (кг)</th>
-        </tr>
-      </thead>
-      <tbody id="rmBody"></tbody>
-    </table>
+    <div class="table-wrapper">
+      <table id="rmTable" style="display: none;">
+        <thead>
+          <tr>
+            <th>Формула</th>
+            <th>Оцінка 1RM (кг)</th>
+          </tr>
+        </thead>
+        <tbody id="rmBody"></tbody>
+      </table>
+    </div>
 
-    <hr>
+    <hr />
 
     <h2>Lift Program (лінійна прогресія)</h2>
-    <label for="maxInput">Введіть ваш 1RM (макс. у кг):</label><br>
-    <input type="number" id="maxInput" placeholder="Наприклад, 100"><br><br>
+    <label for="maxInput">Введіть ваш 1RM (макс. у кг):</label><br />
+    <input type="number" id="maxInput" placeholder="Наприклад, 100" /><br /><br />
     <button onclick="generateProgram()">Створити програму</button>
-    
-    <table id="programTable" style="display: none; margin: 17px auto;">
-      <thead>
-        <tr>
-          <th>Тиждень</th>
-          <th>Підходи x Повторення</th>
-          <th>% від 1RM</th>
-          <th>Робоча вага (кг)</th>
-          <th>Округлено (кг)</th>
-        </tr>
-      </thead>
-      <tbody id="programBody"></tbody>
-    </table>
 
-    <hr>
+    <div class="table-wrapper">
+      <table id="programTable" style="display: none; margin: 17px auto;">
+        <thead>
+          <tr>
+            <th>Тиждень</th>
+            <th>Підходи x Повторення</th>
+            <th>% від 1RM</th>
+            <th>Робоча вага (кг)</th>
+            <th>Округлено (кг)</th>
+          </tr>
+        </thead>
+        <tbody id="programBody"></tbody>
+      </table>
+    </div>
+
+    <hr />
 
     <h2>День 2 — Hirvis Bench</h2>
     <button onclick="generateHirvis()">Створити день 2</button>
 
-    <table id="hirvisTable" style="display: none;">
-      <thead>
-        <tr>
-          <th>Сет</th>
-          <th>Повтори</th>
-          <th>% від 1RM</th>
-          <th>Вага (кг)</th>
-          <th>Округлено (кг)</th>
-        </tr>
-      </thead>
-      <tbody id="hirvisBody"></tbody>
-    </table>
+    <div class="table-wrapper">
+      <table id="hirvisTable" style="display: none;">
+        <thead>
+          <tr>
+            <th>Сет</th>
+            <th>Повтори</th>
+            <th>% від 1RM</th>
+            <th>Вага (кг)</th>
+            <th>Округлено (кг)</th>
+          </tr>
+        </thead>
+        <tbody id="hirvisBody"></tbody>
+      </table>
+    </div>
   </div>
 
   <script>
