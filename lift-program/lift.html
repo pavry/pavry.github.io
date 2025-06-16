@@ -5,174 +5,136 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Lift Program + 1RM Calculator + Hirvis Bench</title>
   <style>
-    /* Загальні стилі */
-    body {
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background: #f9fafc;
-      padding: 20px;
-      margin: 0;
       color: #222;
     }
+
     .container {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
       background: #ffffff;
-      padding: 30px 40px;
-      border-radius: 12px;
-      max-width: 760px;
-      margin: 30px auto;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.08);
-      text-align: center;
+      padding: 30px 20px;
       box-sizing: border-box;
-      transition: box-shadow 0.3s ease;
-    }
-    .container:hover {
-      box-shadow: 0 12px 30px rgba(0,0,0,0.12);
-    }
-
-    /* Заголовки */
-    h2 {
-      font-weight: 700;
-      font-size: 2rem;
-      margin-top: 0;
-      margin-bottom: 25px;
-      color: #1a237e;
-      user-select: none;
-    }
-
-    /* Інпути */
-    input[type=number] {
       width: 100%;
-      padding: 14px 18px;
-      font-size: 1.1rem;
-      border-radius: 8px;
-      border: 2px solid #c5cae9;
-      transition: border-color 0.3s ease;
-      box-sizing: border-box;
-      margin: 8px 0 18px 0;
-      outline-offset: 2px;
+      max-width: 100%;
     }
-    input[type=number]:focus {
+
+    h2 {
+      font-size: 1.8rem;
+      color: #1a237e;
+      margin: 0 0 20px;
+      text-align: center;
+    }
+
+    input[type=number], button {
+      width: 100%;
+      padding: 14px;
+      font-size: 1.1rem;
+      margin-bottom: 16px;
+      border: 2px solid #c5cae9;
+      border-radius: 8px;
+      box-sizing: border-box;
+    }
+
+    input:focus {
       border-color: #3f51b5;
       box-shadow: 0 0 6px #7986cb;
     }
 
-    /* Кнопки */
     button {
-      width: 100%;
-      background: #3f51b5;
+      background-color: #3f51b5;
+      color: #fff;
       border: none;
-      border-radius: 8px;
-      color: white;
-      font-size: 1.15rem;
-      font-weight: 600;
-      padding: 14px 20px;
+      font-weight: bold;
       cursor: pointer;
-      margin-top: 10px;
-      box-shadow: 0 5px 15px rgba(63,81,181,0.3);
-      transition: background-color 0.3s ease, box-shadow 0.3s ease;
-      user-select: none;
-    }
-    button:hover {
-      background: #303f9f;
-      box-shadow: 0 7px 18px rgba(48,63,159,0.5);
-    }
-    button:active {
-      background: #283593;
-      box-shadow: 0 3px 8px rgba(40,53,147,0.7);
-      transform: translateY(1px);
+      transition: background 0.3s ease;
     }
 
-    /* Таблиці */
+    button:hover {
+      background-color: #303f9f;
+    }
+
     .table-wrapper {
       overflow-x: auto;
-      -webkit-overflow-scrolling: touch;
-      margin-top: 30px;
-      border-radius: 10px;
-      box-shadow: 0 6px 15px rgba(63,81,181,0.1);
-      background: white;
-    }
-    table {
-      border-collapse: separate;
-      border-spacing: 0;
-      width: 100%;
-      min-width: 500px;
-      font-size: 1rem;
-      color: #3a3a3a;
-      text-align: center;
-    }
-    th, td {
-      padding: 14px 20px;
-      border-bottom: 1px solid #e0e0e0;
-    }
-    thead th {
-      background: #3f51b5;
-      color: white;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      user-select: none;
-    }
-    tbody tr:hover {
-      background-color: #f1f3f9;
-    }
-    tbody tr:last-child td {
-      border-bottom: none;
-    }
-    tbody tr.bold-row td {
-      font-weight: 700;
-      background-color: #e8eaf6;
-      color: #1a237e;
+      margin-top: 20px;
     }
 
-    /* Нотатки */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 500px;
+    }
+
+    th, td {
+      padding: 12px;
+      border: 1px solid #ddd;
+      text-align: center;
+    }
+
+    thead {
+      background: #3f51b5;
+      color: white;
+    }
+
+    tbody tr.bold-row {
+      font-weight: bold;
+      background: #e8eaf6;
+    }
+
+    hr {
+      margin: 30px 0;
+      border: none;
+      height: 1px;
+      background: #ddd;
+    }
+
     .notes {
       background: #e3f2fd;
       border-left: 6px solid #1976d2;
-      padding: 20px 25px;
+      padding: 20px;
       margin-top: 40px;
-      text-align: left;
       color: #0d47a1;
-      font-size: 1rem;
-      line-height: 1.6;
       border-radius: 8px;
-      max-width: 760px;
-      margin-left: auto;
-      margin-right: auto;
-      user-select: none;
-      box-shadow: 0 4px 20px rgba(25, 118, 210, 0.1);
     }
+
     .notes strong {
-      color: #0b3d91;
-      font-weight: 700;
       display: block;
       margin-bottom: 12px;
       font-size: 1.2rem;
     }
+
     .notes ul {
-      margin: 0;
       padding-left: 20px;
-      list-style-type: disc;
     }
-    .notes ul li {
+
+    .notes li {
       margin-bottom: 10px;
     }
 
-    /* Мобільна адаптивність */
-    @media (max-width: 620px) {
-      .container {
-        padding: 20px 25px;
-        margin: 15px;
+    @media (max-width: 600px) {
+      h2 {
+        font-size: 1.5rem;
       }
+
       input[type=number], button {
-        font-size: 1.3rem;
-        padding: 16px 18px;
+        font-size: 1rem;
+        padding: 12px;
       }
+
       table {
-        font-size: 0.9rem;
-        min-width: 400px;
+        min-width: 100%;
+        font-size: 0.95rem;
       }
+
       .notes {
         font-size: 0.95rem;
-        padding: 15px 20px;
       }
     }
   </style>
@@ -196,19 +158,18 @@
       </table>
     </div>
 
-    <hr style="margin: 40px 0; border: none; height: 1px; background: #ddd;" />
+    <hr />
 
     <h2>Програма тренувань</h2>
-    <label for="maxInput" style="font-weight: 600; font-size: 1.1rem; display: block; margin-bottom: 8px;">Введіть ваш 1RM (макс.):</label>
-    <input type="number" id="maxInput" placeholder="Наприклад, 100" />
+    <input type="number" id="maxInput" placeholder="Введіть ваш 1RM (макс.)" />
     <button onclick="generateCombinedProgram()">Створити програму</button>
 
     <div class="table-wrapper">
-      <table id="combinedProgramTable" style="display: none; margin: 30px auto 0 auto;">
+      <table id="combinedProgramTable" style="display: none;">
         <thead>
           <tr>
-            <th>Дні тренувань</th>
-            <th>Підходи x Повторення</th>
+            <th>Дні</th>
+            <th>Сети x Повтори</th>
             <th>% від 1RM</th>
             <th>Робоча вага</th>
             <th>Округлено</th>
@@ -218,20 +179,18 @@
       </table>
     </div>
 
-    <div class="notes" id="programNotes" style="display:none;">
+    <div class="notes" id="programNotes" style="display: none;">
       <strong>Нотатки до програми:</strong>
-        <ul>
-          <li>Програма розрахована на два тренування на тиждень</li>
-          <li>Перше тренування починається з 8х8 (8 підходів по 8 повторень), друге — з 8х1 (8 підходів по 1 повторенню).</li>
-          <li>Прогресія навантажень буває різна: наприклад, я виконую 8х8, потім 6х6 і 1х8 (85%). Якщо виконав всі 8 повторень — це новий 1RM.</li>
-          <li>Введи новий 1RM у перший калькулятор і починай програму знову. Можна також починати з 7х7 потім 5х5 і 1х8 (85%).</li>
-          <li>Якщо не встановив рекорд, переходь на 7х7 і 5х5, та знову пробуй встановити рекорд на 1х8 (85% ваги).</li>
-          <li>Якщо і це не допомогло, можна спробувати 4х4 і 2х2 або 3х3 і 1х1.</li>
-          <li>Також можна зробити проходку 6-4-2 або 5-3-1. Але це крайній варіанти, бо підвищує ризик травм. Особливо без партнера, який подасть штангу або підстрахує.</li>
-          <li>Бажаю успішних і безпечних тренувань! :)</li>
-        </ul>
+      <ul>
+        <li>Два тренування на тиждень (наприклад, жим і присід).</li>
+        <li>Перше тренування: 8х8, друге — 8х1 (по 1 повторенню).</li>
+        <li>Приклад прогресії: 8x8 → 6x6 → 1x8 з 85%. Якщо виконав всі 8 — це новий 1RM.</li>
+        <li>Після рекорду введи новий 1RM і почни з 7x7 → 5x5 → 1x8 (85%).</li>
+        <li>Якщо рекорд не вдалось — йди на ще одну прогресію або на легшу схему: 4x4 → 2x2 чи 3x3 → 1x1.</li>
+        <li>В крайньому разі: 6-4-2 або 5-3-1 — тільки під наглядом або з напарником.</li>
+        <li>Тренуйся з розумом і обережністю 💪</li>
+      </ul>
     </div>
-
   </div>
 
   <script>
@@ -299,7 +258,6 @@
 
       body.innerHTML = '';
 
-      // День 1 (тижні)
       weeks.forEach((week, i) => {
         const rawWeight = max * (week.percent / 100);
         const rounded = Math.round(rawWeight / 5) * 5;
@@ -313,18 +271,17 @@
         </tr>`;
       });
 
-      // День 2 (Hirvis Bench)
       const percentHirvis = 95;
       const rawHirvis = max * (percentHirvis / 100);
       const roundedHirvis = Math.round(rawHirvis / 5) * 5;
 
       body.innerHTML += `<tr>
-          <td>1-8</td>
-          <td>8 x 1</td>
-          <td>${percentHirvis}%</td>
-          <td>${rawHirvis.toFixed(1)}</td>
-          <td>${roundedHirvis}</td>
-        </tr>`;
+        <td>1–8</td>
+        <td>8 x 1</td>
+        <td>${percentHirvis}%</td>
+        <td>${rawHirvis.toFixed(1)}</td>
+        <td>${roundedHirvis}</td>
+      </tr>`;
 
       table.style.display = 'table';
       notes.style.display = 'block';
