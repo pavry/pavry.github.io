@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <title>Lift Program + 1RM Calculator + Hirvis Bench</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #f2f2f2;
+      padding: 20px;
+    }
+    .container {
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      max-width: 750px;
+      margin: auto;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    th, td {
+      padding: 10px;
+      border: 1px solid #ccc;
+      text-align: center;
+    }
+    input, button {
+      padding: 10px;
+      font-size: 1rem;
+      margin: 5px;
+    }
+    h2 {
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>1RM Калькулятор</h2>
+    <input type="number" id="weight" placeholder="Вага (кг)">
+    <input type="number" id="reps" placeholder="Повторення">
+    <button onclick="calculate1RM()">Розрахувати 1RM</button>
+
+    <table id="rmTable" style="display: none;">
+      <thead>
+        <tr>
+          <th>Формула</th>
+          <th>Оцінка 1RM (кг)</th>
+        </tr>
+      </thead>
+      <tbody id="rmBody"></tbody>
+    </table>
+
+    <hr>
+
+    <h2>Lift Program (лінійна прогресія)</h2>
+    <label for="maxInput">Введіть ваш 1RM (макс. у кг):</label><br>
+    <input type="number" id="maxInput" placeholder="Наприклад, 100"><br><br>
+    <button onclick="generateProgram()">Створити програму</button>
+    
+    <table id="programTable" style="display: none; margin: 17px auto;">
+      <thead>
+        <tr>
+          <th>Тиждень</th>
+          <th>Підходи x Повторення</th>
+          <th>% від 1RM</th>
+          <th>Робоча вага (кг)</th>
+          <th>Округлено (кг)</th>
+        </tr>
+      </thead>
+      <tbody id="programBody"></tbody>
+    </table>
+
+    <hr>
+
+    <h2>День 2 — Hirvis Bench</h2>
+    <button onclick="generateHirvis()">Створити день 2</button>
+
+    <table id="hirvisTable" style="display: none;">
+      <thead>
+        <tr>
+          <th>Сет</th>
+          <th>Повтори</th>
+          <th>% від 1RM</th>
+          <th>Вага (кг)</th>
+          <th>Округлено (кг)</th>
+        </tr>
+      </thead>
+      <tbody id="hirvisBody"></tbody>
+    </table>
+  </div>
+
+  <script>
+    function calculate1RM() {
+      const weight = parseFloat(document.getElementById('weight').value);
+      const reps = parseInt(document.getElementById('reps').value);
+      const rmBody = document.getElementById('rmBody');
+      const rmTable = document.getElementById('rmTable');
+
+      if (isNaN(weight) || weight <= 0 || isNaN(reps) || reps <= 0) {
+        alert('Будь ласка, введіть коректні дані.');
+        return;
+      }
+
+      const formulas = [
+        { name: "Epley", calc: () => weight * (1 + reps / 30) },
+        { name: "Brzycki", calc: () => weight * (36 / (37 - reps)) },
+        { name: "Lombardi", calc: () => weight * Math.pow(reps, 0.10) },
+        { name: "O'Conner", calc: () => weight * (1 + 0.025 * reps) },
+        { name: "Wathan", calc: () => (weight * 100) / (48.8 + 53.8 * Math.exp(-0.075 * reps)) }
+      ];
+
+      let sum = 0;
+      rmBody.innerHTML = '';
+
+      formulas.forEach(f => {
+        const result = f.calc();
+        sum += result;
+        rmBody.innerHTML += `<tr><td>${f.name}</td><td>${result.toFixed(1)} кг</td></tr>`;
+      });
+
+      const avg = sum / formulas.length;
+      const avgRounded = Math.round(avg / 5) * 5;
+
+      rmBody.innerHTML += `<tr style="font-weight: bold;">
+        <td>Середнє</td>
+        <td>${avg.toFixed(1)} кг → ${avgRounded} кг</td>
+      </tr>`;
+
+      document.getElementById('maxInput').value = avgRounded;
+      rmTable.style.display = 'table';
+    }
+
+    const weeks = [
+      { sets: 8, reps: 8, percent: 70 },
+      { sets: 7, reps: 7, percent: 75 },
+      { sets: 6, reps: 6, percent: 80 },
+      { sets: 5, reps: 5, percent: 85 },
+      { sets: 4, reps: 4, percent: 90 },
+      { sets: 3, reps: 3, percent: 95 },
+      { sets: 2, reps: 2, percent: 100 },
+      { sets: 1, reps: 1, percent: 105 },
+    ];
+
+    function generateProgram() {
+      const max = parseFloat(document.getElementById('maxInput').value);
+      const body = document.getElementById('programBody');
+      const table = document.getElementById('programTable');
+
+      if (isNaN(max) || max <= 0) {
+        alert('Будь ласка, введіть коректне значення 1RM.');
+        return;
+      }
+
+      body.innerHTML = '';
+      weeks.forEach((week, i) => {
+        const rawWeight = max * (week.percent / 100);
+        const weight = rawWeight.toFixed(1);
+        const rounded = Math.round(rawWeight / 5) * 5;
+
+        body.innerHTML += `<tr>
+          <td>Тиждень ${i + 1}</td>
+          <td>${week.sets} x ${week.reps}</td>
+          <td>${week.percent}%</td>
+          <td>${weight} кг</td>
+          <td>${rounded} кг</td>
+        </tr>`;
+      });
+
+      table.style.display = 'table';
+    }
+
+    function generateHirvis() {
+      const max = parseFloat(document.getElementById('maxInput').value);
+      const body = document.getElementById('hirvisBody');
+      const table = document.getElementById('hirvisTable');
+
+      if (isNaN(max) || max <= 0) {
+        alert('Будь ласка, введіть коректне значення 1RM.');
+        return;
+      }
+
+      const percent = 95;
+      const raw = max * (percent / 100);
+      const rounded = Math.round(raw / 5) * 5;
+
+      body.innerHTML = '';
+      for (let i = 1; i <= 8; i++) {
+        body.innerHTML += `<tr>
+          <td>${i}</td>
+          <td>1</td>
+          <td>${percent}%</td>
+          <td>${raw.toFixed(1)} кг</td>
+          <td>${rounded} кг</td>
+        </tr>`;
+      }
+
+      table.style.display = 'table';
+    }
+  </script>
+</body>
+</html>
