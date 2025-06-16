@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>Lift Program + 1RM Calculator + Hirvis Bench</title>
   <style>
-    /* Повністю заповнюємо екран */
     html, body {
       margin: 0;
       padding: 0;
@@ -16,10 +15,8 @@
       background: #f2f2f2;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
-      overflow: hidden; /* щоби не було подвійного скролу */
+      overflow: hidden;
     }
-
-    /* Основний контейнер займає весь екран і має внутрішній скрол */
     .container {
       box-sizing: border-box;
       height: 100vh;
@@ -30,16 +27,14 @@
       flex-direction: column;
       align-items: center;
       overflow-y: auto;
-      -webkit-overflow-scrolling: touch; /* плавний скрол на iOS */
+      -webkit-overflow-scrolling: touch;
     }
-
     h2 {
       margin: 20px 0 10px;
       font-size: 1.8rem;
       font-weight: 600;
       color: #222;
     }
-
     input, button {
       font-size: 1.3rem;
       padding: 14px 16px;
@@ -67,8 +62,6 @@
     button:hover {
       background-color: #005bb5;
     }
-
-    /* Таблиці з більшим шрифтом і padding */
     table {
       width: 100%;
       max-width: 600px;
@@ -92,8 +85,6 @@
       color: white;
       font-weight: 700;
     }
-
-    /* Горизонтальний скрол таблиць на мобільних */
     .table-wrapper {
       width: 100%;
       max-width: 600px;
@@ -104,8 +95,6 @@
       box-shadow: 0 2px 8px rgba(0,0,0,0.05);
       background: white;
     }
-
-    /* Менший відступи на вузьких екранах */
     @media (max-width: 400px) {
       input, button {
         font-size: 1.1rem;
@@ -132,7 +121,7 @@
         <thead>
           <tr>
             <th>Формула</th>
-            <th>Оцінка 1RM (кг)</th>
+            <th>Оцінка 1RM</th>
           </tr>
         </thead>
         <tbody id="rmBody"></tbody>
@@ -151,8 +140,8 @@
             <th>Тиждень</th>
             <th>Підходи x Повторення</th>
             <th>% від 1RM</th>
-            <th>Робоча вага (кг)</th>
-            <th>Округлено (кг)</th>
+            <th>Робоча вага</th>
+            <th>Округлено</th>
           </tr>
         </thead>
         <tbody id="programBody"></tbody>
@@ -169,8 +158,8 @@
             <th>Сет</th>
             <th>Повтори</th>
             <th>% від 1RM</th>
-            <th>Вага (кг)</th>
-            <th>Округлено (кг)</th>
+            <th>Вага</th>
+            <th>Округлено</th>
           </tr>
         </thead>
         <tbody id="hirvisBody"></tbody>
@@ -212,7 +201,7 @@
 
       rmBody.innerHTML += `<tr style="font-weight: bold;">
         <td>Середнє</td>
-        <td>${avg.toFixed(1)} кг → ${avgRounded}</td>
+        <td>${avg.toFixed(1)} → ${avgRounded}</td>
       </tr>`;
 
       document.getElementById('maxInput').value = avgRounded;
