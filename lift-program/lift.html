@@ -72,7 +72,7 @@
 <body>
   <div class="container">
     <h2>1RM Калькулятор</h2>
-    <input type="number" id="weight" placeholder="Вага (кг)" />
+    <input type="number" id="weight" placeholder="Вага" />
     <input type="number" id="reps" placeholder="Повторення" />
     <button onclick="calculate1RM()">Розрахувати 1RM</button>
 
@@ -81,7 +81,7 @@
         <thead>
           <tr>
             <th>Формула</th>
-            <th>Оцінка 1RM (кг)</th>
+            <th>Оцінка 1RM</th>
           </tr>
         </thead>
         <tbody id="rmBody"></tbody>
@@ -91,7 +91,7 @@
     <hr />
 
     <h2>Lift Program (лінійна прогресія)</h2>
-    <label for="maxInput">Введіть ваш 1RM (макс. у кг):</label><br />
+    <label for="maxInput">Введіть ваш 1RM (макс.):</label><br />
     <input type="number" id="maxInput" placeholder="Наприклад, 100" /><br /><br />
     <button onclick="generateProgram()">Створити програму</button>
 
@@ -102,8 +102,8 @@
             <th>Тиждень</th>
             <th>Підходи x Повторення</th>
             <th>% від 1RM</th>
-            <th>Робоча вага (кг)</th>
-            <th>Округлено (кг)</th>
+            <th>Робоча вага</th>
+            <th>Округлено</th>
           </tr>
         </thead>
         <tbody id="programBody"></tbody>
@@ -122,8 +122,8 @@
             <th>Сет</th>
             <th>Повтори</th>
             <th>% від 1RM</th>
-            <th>Вага (кг)</th>
-            <th>Округлено (кг)</th>
+            <th>Вага</th>
+            <th>Округлено</th>
           </tr>
         </thead>
         <tbody id="hirvisBody"></tbody>
@@ -157,7 +157,7 @@
       formulas.forEach(f => {
         const result = f.calc();
         sum += result;
-        rmBody.innerHTML += `<tr><td>${f.name}</td><td>${result.toFixed(1)} кг</td></tr>`;
+        rmBody.innerHTML += `<tr><td>${f.name}</td><td>${result.toFixed(1)}</td></tr>`;
       });
 
       const avg = sum / formulas.length;
@@ -165,7 +165,7 @@
 
       rmBody.innerHTML += `<tr style="font-weight: bold;">
         <td>Середнє</td>
-        <td>${avg.toFixed(1)} кг → ${avgRounded} кг</td>
+        <td>${avg.toFixed(1)} → ${avgRounded}</td>
       </tr>`;
 
       document.getElementById('maxInput').value = avgRounded;
@@ -203,8 +203,8 @@
           <td>Тиждень ${i + 1}</td>
           <td>${week.sets} x ${week.reps}</td>
           <td>${week.percent}%</td>
-          <td>${weight} кг</td>
-          <td>${rounded} кг</td>
+          <td>${weight}</td>
+          <td>${rounded}</td>
         </tr>`;
       });
 
@@ -231,8 +231,8 @@
           <td>${i}</td>
           <td>1</td>
           <td>${percent}%</td>
-          <td>${raw.toFixed(1)} кг</td>
-          <td>${rounded} кг</td>
+          <td>${raw.toFixed(1)}</td>
+          <td>${rounded}</td>
         </tr>`;
       }
 
