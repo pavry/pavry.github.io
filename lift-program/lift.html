@@ -204,7 +204,7 @@
       formulas.forEach(f => {
         const result = f.calc();
         sum += result;
-        rmBody.innerHTML += `<tr><td>${f.name}</td><td>${result.toFixed(1)} кг</td></tr>`;
+        rmBody.innerHTML += `<tr><td>${f.name}</td><td>${result.toFixed(1)}</td></tr>`;
       });
 
       const avg = sum / formulas.length;
@@ -212,7 +212,7 @@
 
       rmBody.innerHTML += `<tr style="font-weight: bold;">
         <td>Середнє</td>
-        <td>${avg.toFixed(1)} кг → ${avgRounded} кг</td>
+        <td>${avg.toFixed(1)} кг → ${avgRounded}</td>
       </tr>`;
 
       document.getElementById('maxInput').value = avgRounded;
@@ -250,8 +250,8 @@
           <td>Тиждень ${i + 1}</td>
           <td>${week.sets} x ${week.reps}</td>
           <td>${week.percent}%</td>
-          <td>${weight} кг</td>
-          <td>${rounded} кг</td>
+          <td>${weight}</td>
+          <td>${rounded}</td>
         </tr>`;
       });
 
@@ -278,8 +278,8 @@
           <td>${i}</td>
           <td>1</td>
           <td>${percent}%</td>
-          <td>${raw.toFixed(1)} кг</td>
-          <td>${rounded} кг</td>
+          <td>${raw.toFixed(1)}</td>
+          <td>${rounded}</td>
         </tr>`;
       }
 
