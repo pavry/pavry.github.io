@@ -5,66 +5,174 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Lift Program + 1RM Calculator + Hirvis Bench</title>
   <style>
+    /* Загальні стилі */
     body {
-      font-family: sans-serif;
-      background: #f2f2f2;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f9fafc;
       padding: 20px;
       margin: 0;
+      color: #222;
     }
     .container {
-      background: #fff;
-      padding: 20px;
-      border-radius: 8px;
-      max-width: 750px;
-      margin: auto;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      background: #ffffff;
+      padding: 30px 40px;
+      border-radius: 12px;
+      max-width: 760px;
+      margin: 30px auto;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.08);
       text-align: center;
       box-sizing: border-box;
+      transition: box-shadow 0.3s ease;
     }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 20px;
-      table-layout: fixed;
-      word-wrap: break-word;
-    }
-    th, td {
-      padding: 10px;
-      border: 1px solid #ccc;
-      text-align: center;
-    }
-    input, button {
-      padding: 10px;
-      font-size: 1rem;
-      margin: 5px 0;
-      width: 100%;
-      box-sizing: border-box;
-      border-radius: 4px;
-      border: 1px solid #ccc;
-    }
-    h2 {
-      text-align: center;
-      margin-top: 0;
+    .container:hover {
+      box-shadow: 0 12px 30px rgba(0,0,0,0.12);
     }
 
-    /* Горизонтальний скрол для таблиць на мобільних */
+    /* Заголовки */
+    h2 {
+      font-weight: 700;
+      font-size: 2rem;
+      margin-top: 0;
+      margin-bottom: 25px;
+      color: #1a237e;
+      user-select: none;
+    }
+
+    /* Інпути */
+    input[type=number] {
+      width: 100%;
+      padding: 14px 18px;
+      font-size: 1.1rem;
+      border-radius: 8px;
+      border: 2px solid #c5cae9;
+      transition: border-color 0.3s ease;
+      box-sizing: border-box;
+      margin: 8px 0 18px 0;
+      outline-offset: 2px;
+    }
+    input[type=number]:focus {
+      border-color: #3f51b5;
+      box-shadow: 0 0 6px #7986cb;
+    }
+
+    /* Кнопки */
+    button {
+      width: 100%;
+      background: #3f51b5;
+      border: none;
+      border-radius: 8px;
+      color: white;
+      font-size: 1.15rem;
+      font-weight: 600;
+      padding: 14px 20px;
+      cursor: pointer;
+      margin-top: 10px;
+      box-shadow: 0 5px 15px rgba(63,81,181,0.3);
+      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+      user-select: none;
+    }
+    button:hover {
+      background: #303f9f;
+      box-shadow: 0 7px 18px rgba(48,63,159,0.5);
+    }
+    button:active {
+      background: #283593;
+      box-shadow: 0 3px 8px rgba(40,53,147,0.7);
+      transform: translateY(1px);
+    }
+
+    /* Таблиці */
     .table-wrapper {
       overflow-x: auto;
-      -webkit-overflow-scrolling: touch; /* плавний скрол на iOS */
-      margin-top: 10px;
+      -webkit-overflow-scrolling: touch;
+      margin-top: 30px;
+      border-radius: 10px;
+      box-shadow: 0 6px 15px rgba(63,81,181,0.1);
+      background: white;
+    }
+    table {
+      border-collapse: separate;
+      border-spacing: 0;
+      width: 100%;
+      min-width: 500px;
+      font-size: 1rem;
+      color: #3a3a3a;
+      text-align: center;
+    }
+    th, td {
+      padding: 14px 20px;
+      border-bottom: 1px solid #e0e0e0;
+    }
+    thead th {
+      background: #3f51b5;
+      color: white;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      user-select: none;
+    }
+    tbody tr:hover {
+      background-color: #f1f3f9;
+    }
+    tbody tr:last-child td {
+      border-bottom: none;
+    }
+    tbody tr.bold-row td {
+      font-weight: 700;
+      background-color: #e8eaf6;
+      color: #1a237e;
     }
 
-    /* Менший відступ на мобільних */
-    @media (max-width: 600px) {
-      body {
-        padding: 10px;
-      }
+    /* Нотатки */
+    .notes {
+      background: #e3f2fd;
+      border-left: 6px solid #1976d2;
+      padding: 20px 25px;
+      margin-top: 40px;
+      text-align: left;
+      color: #0d47a1;
+      font-size: 1rem;
+      line-height: 1.6;
+      border-radius: 8px;
+      max-width: 760px;
+      margin-left: auto;
+      margin-right: auto;
+      user-select: none;
+      box-shadow: 0 4px 20px rgba(25, 118, 210, 0.1);
+    }
+    .notes strong {
+      color: #0b3d91;
+      font-weight: 700;
+      display: block;
+      margin-bottom: 12px;
+      font-size: 1.2rem;
+    }
+    .notes ul {
+      margin: 0;
+      padding-left: 20px;
+      list-style-type: disc;
+    }
+    .notes ul li {
+      margin-bottom: 10px;
+    }
+
+    /* Мобільна адаптивність */
+    @media (max-width: 620px) {
       .container {
-        padding: 15px;
-        max-width: 100%;
+        padding: 20px 25px;
+        margin: 15px;
       }
-      input, button {
-        font-size: 1.1rem;
+      input[type=number], button {
+        font-size: 1.3rem;
+        padding: 16px 18px;
+      }
+      table {
+        font-size: 0.9rem;
+        min-width: 400px;
+      }
+      .notes {
+        font-size: 0.95rem;
+        padding: 15px 20px;
       }
     }
   </style>
@@ -88,47 +196,42 @@
       </table>
     </div>
 
-    <hr />
+    <hr style="margin: 40px 0; border: none; height: 1px; background: #ddd;" />
 
-    <h2>Lift Program (лінійна прогресія)</h2>
-    <label for="maxInput">Введіть ваш 1RM (макс.):</label><br />
-    <input type="number" id="maxInput" placeholder="Наприклад, 100" /><br /><br />
-    <button onclick="generateProgram()">Створити програму</button>
+    <h2>Програма тренувань</h2>
+    <label for="maxInput" style="font-weight: 600; font-size: 1.1rem; display: block; margin-bottom: 8px;">Введіть ваш 1RM (макс.):</label>
+    <input type="number" id="maxInput" placeholder="Наприклад, 100" />
+    <button onclick="generateCombinedProgram()">Створити програму</button>
 
     <div class="table-wrapper">
-      <table id="programTable" style="display: none; margin: 17px auto;">
+      <table id="combinedProgramTable" style="display: none; margin: 30px auto 0 auto;">
         <thead>
           <tr>
-            <th>Тиждень</th>
+            <th>Дні тренувань</th>
             <th>Підходи x Повторення</th>
             <th>% від 1RM</th>
             <th>Робоча вага</th>
             <th>Округлено</th>
           </tr>
         </thead>
-        <tbody id="programBody"></tbody>
+        <tbody id="combinedProgramBody"></tbody>
       </table>
     </div>
 
-    <hr />
-
-    <h2>День 2 — Hirvis Bench</h2>
-    <button onclick="generateHirvis()">Створити день 2</button>
-
-    <div class="table-wrapper">
-      <table id="hirvisTable" style="display: none;">
-        <thead>
-          <tr>
-            <th>Сет</th>
-            <th>Повтори</th>
-            <th>% від 1RM</th>
-            <th>Вага</th>
-            <th>Округлено</th>
-          </tr>
-        </thead>
-        <tbody id="hirvisBody"></tbody>
-      </table>
+    <div class="notes" id="programNotes" style="display:none;">
+      <strong>Нотатки до програми:</strong>
+        <ul>
+          <li>Програма розрахована на два тренування на тиждень</li>
+          <li>Перше тренування починається з 8х8 (8 підходів по 8 повторень), друге — з 8х1 (8 підходів по 1 повторенню).</li>
+          <li>Прогресія навантажень буває різна: наприклад, я виконую 8х8, потім 6х6 і 1х8 (85%). Якщо виконав всі 8 повторень — це новий 1RM.</li>
+          <li>Введи новий 1RM у перший калькулятор і починай програму знову. Можна також починати з 7х7 потім 5х5 і 1х8 (85%).</li>
+          <li>Якщо не встановив рекорд, переходь на 7х7 і 5х5, та знову пробуй встановити рекорд на 1х8 (85% ваги).</li>
+          <li>Якщо і це не допомогло, можна спробувати 4х4 і 2х2 або 3х3 і 1х1.</li>
+          <li>Також можна зробити проходку 6-4-2 або 5-3-1. Але це крайній варіанти, бо підвищує ризик травм. Особливо без партнера, який подасть штангу або підстрахує.</li>
+          <li>Бажаю успішних і безпечних тренувань! :)</li>
+        </ul>
     </div>
+
   </div>
 
   <script>
@@ -163,7 +266,7 @@
       const avg = sum / formulas.length;
       const avgRounded = Math.round(avg / 5) * 5;
 
-      rmBody.innerHTML += `<tr style="font-weight: bold;">
+      rmBody.innerHTML += `<tr class="bold-row">
         <td>Середнє</td>
         <td>${avg.toFixed(1)} → ${avgRounded}</td>
       </tr>`;
@@ -183,10 +286,11 @@
       { sets: 1, reps: 1, percent: 105 },
     ];
 
-    function generateProgram() {
+    function generateCombinedProgram() {
       const max = parseFloat(document.getElementById('maxInput').value);
-      const body = document.getElementById('programBody');
-      const table = document.getElementById('programTable');
+      const body = document.getElementById('combinedProgramBody');
+      const table = document.getElementById('combinedProgramTable');
+      const notes = document.getElementById('programNotes');
 
       if (isNaN(max) || max <= 0) {
         alert('Будь ласка, введіть коректне значення 1RM.');
@@ -194,49 +298,36 @@
       }
 
       body.innerHTML = '';
+
+      // День 1 (тижні)
       weeks.forEach((week, i) => {
         const rawWeight = max * (week.percent / 100);
-        const weight = rawWeight.toFixed(1);
         const rounded = Math.round(rawWeight / 5) * 5;
 
         body.innerHTML += `<tr>
-          <td>Тиждень ${i + 1}</td>
+          <td>${i + 1}</td>
           <td>${week.sets} x ${week.reps}</td>
           <td>${week.percent}%</td>
-          <td>${weight}</td>
+          <td>${rawWeight.toFixed(1)}</td>
           <td>${rounded}</td>
         </tr>`;
       });
 
-      table.style.display = 'table';
-    }
+      // День 2 (Hirvis Bench)
+      const percentHirvis = 95;
+      const rawHirvis = max * (percentHirvis / 100);
+      const roundedHirvis = Math.round(rawHirvis / 5) * 5;
 
-    function generateHirvis() {
-      const max = parseFloat(document.getElementById('maxInput').value);
-      const body = document.getElementById('hirvisBody');
-      const table = document.getElementById('hirvisTable');
-
-      if (isNaN(max) || max <= 0) {
-        alert('Будь ласка, введіть коректне значення 1RM.');
-        return;
-      }
-
-      const percent = 95;
-      const raw = max * (percent / 100);
-      const rounded = Math.round(raw / 5) * 5;
-
-      body.innerHTML = '';
-      for (let i = 1; i <= 8; i++) {
-        body.innerHTML += `<tr>
-          <td>${i}</td>
-          <td>1</td>
-          <td>${percent}%</td>
-          <td>${raw.toFixed(1)}</td>
-          <td>${rounded}</td>
+      body.innerHTML += `<tr>
+          <td>1-8</td>
+          <td>8 x 1</td>
+          <td>${percentHirvis}%</td>
+          <td>${rawHirvis.toFixed(1)}</td>
+          <td>${roundedHirvis}</td>
         </tr>`;
-      }
 
       table.style.display = 'table';
+      notes.style.display = 'block';
     }
   </script>
 </body>
