@@ -5,13 +5,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>Lift Program + 1RM Calculator + Hirvis Bench</title>
   <style>
+    /* Повністю заповнюємо екран */
     html, body {
-      margin: 0; padding: 0; height: 100%; width: 100%;
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      width: 100%;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
         Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
       background: #f2f2f2;
-      overflow: hidden;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      overflow: hidden; /* щоби не було подвійного скролу */
     }
+
+    /* Основний контейнер займає весь екран і має внутрішній скрол */
     .container {
       box-sizing: border-box;
       height: 100vh;
@@ -22,14 +30,16 @@
       flex-direction: column;
       align-items: center;
       overflow-y: auto;
-      -webkit-overflow-scrolling: touch;
+      -webkit-overflow-scrolling: touch; /* плавний скрол на iOS */
     }
+
     h2 {
       margin: 20px 0 10px;
       font-size: 1.8rem;
       font-weight: 600;
       color: #222;
     }
+
     input, button {
       font-size: 1.3rem;
       padding: 14px 16px;
@@ -39,7 +49,7 @@
       max-width: 400px;
       margin: 10px 0;
       box-sizing: border-box;
-      cursor: pointer;
+      transition: border-color 0.3s ease;
     }
     input:focus {
       outline: none;
@@ -57,6 +67,8 @@
     button:hover {
       background-color: #005bb5;
     }
+
+    /* Таблиці з більшим шрифтом і padding */
     table {
       width: 100%;
       max-width: 600px;
@@ -80,6 +92,8 @@
       color: white;
       font-weight: 700;
     }
+
+    /* Горизонтальний скрол таблиць на мобільних */
     .table-wrapper {
       width: 100%;
       max-width: 600px;
@@ -90,6 +104,8 @@
       box-shadow: 0 2px 8px rgba(0,0,0,0.05);
       background: white;
     }
+
+    /* Менший відступи на вузьких екранах */
     @media (max-width: 400px) {
       input, button {
         font-size: 1.1rem;
@@ -109,14 +125,14 @@
     <h2>1RM Калькулятор</h2>
     <input type="number" id="weight" placeholder="Вага (кг)" />
     <input type="number" id="reps" placeholder="Повторення" />
-    <button type="button" id="calcBtn">Розрахувати 1RM</button>
+    <button onclick="calculate1RM()">Розрахувати 1RM</button>
 
     <div class="table-wrapper">
       <table id="rmTable" style="display: none;">
         <thead>
           <tr>
             <th>Формула</th>
-            <th>Оцінка 1RM</th>
+            <th>Оцінка 1RM (кг)</th>
           </tr>
         </thead>
         <tbody id="rmBody"></tbody>
@@ -126,7 +142,7 @@
     <h2>Lift Program (лінійна прогресія)</h2>
     <label for="maxInput">Введіть ваш 1RM (макс. у кг):</label><br />
     <input type="number" id="maxInput" placeholder="Наприклад, 100" /><br />
-    <button type="button" id="progBtn">Створити програму</button>
+    <button onclick="generateProgram()">Створити програму</button>
 
     <div class="table-wrapper">
       <table id="programTable" style="display: none; margin: 0 auto;">
@@ -135,8 +151,8 @@
             <th>Тиждень</th>
             <th>Підходи x Повторення</th>
             <th>% від 1RM</th>
-            <th>Робоча вага</th>
-            <th>Округлено</th>
+            <th>Робоча вага (кг)</th>
+            <th>Округлено (кг)</th>
           </tr>
         </thead>
         <tbody id="programBody"></tbody>
@@ -144,7 +160,7 @@
     </div>
 
     <h2>День 2 — Hirvis Bench</h2>
-    <button type="button" id="hirvisBtn">Створити день 2</button>
+    <button onclick="generateHirvis()">Створити день 2</button>
 
     <div class="table-wrapper">
       <table id="hirvisTable" style="display: none;">
@@ -153,8 +169,8 @@
             <th>Сет</th>
             <th>Повтори</th>
             <th>% від 1RM</th>
-            <th>Вага</th>
-            <th>Округлено</th>
+            <th>Вага (кг)</th>
+            <th>Округлено (кг)</th>
           </tr>
         </thead>
         <tbody id="hirvisBody"></tbody>
@@ -163,19 +179,6 @@
   </div>
 
   <script>
-    document.getElementById('calcBtn').addEventListener('click', () => {
-      console.log('Розрахунок 1RM натиснуто');
-      calculate1RM();
-    });
-    document.getElementById('progBtn').addEventListener('click', () => {
-      console.log('Створення програми натиснуто');
-      generateProgram();
-    });
-    document.getElementById('hirvisBtn').addEventListener('click', () => {
-      console.log('Створення Hirvis Bench натиснуто');
-      generateHirvis();
-    });
-
     function calculate1RM() {
       const weight = parseFloat(document.getElementById('weight').value);
       const reps = parseInt(document.getElementById('reps').value);
@@ -201,7 +204,7 @@
       formulas.forEach(f => {
         const result = f.calc();
         sum += result;
-        rmBody.innerHTML += `<tr><td>${f.name}</td><td>${result.toFixed(1)}</td></tr>`;
+        rmBody.innerHTML += `<tr><td>${f.name}</td><td>${result.toFixed(1)} кг</td></tr>`;
       });
 
       const avg = sum / formulas.length;
@@ -209,7 +212,7 @@
 
       rmBody.innerHTML += `<tr style="font-weight: bold;">
         <td>Середнє</td>
-        <td>${avg.toFixed(1)} → ${avgRounded}</td>
+        <td>${avg.toFixed(1)} кг → ${avgRounded} кг</td>
       </tr>`;
 
       document.getElementById('maxInput').value = avgRounded;
@@ -239,14 +242,16 @@
 
       body.innerHTML = '';
       weeks.forEach((week, i) => {
-        const weightRaw = max * (week.percent / 100);
-        const weightRounded = Math.round(weightRaw / 5) * 5;
+        const rawWeight = max * (week.percent / 100);
+        const weight = rawWeight.toFixed(1);
+        const rounded = Math.round(rawWeight / 5) * 5;
+
         body.innerHTML += `<tr>
           <td>Тиждень ${i + 1}</td>
           <td>${week.sets} x ${week.reps}</td>
           <td>${week.percent}%</td>
-          <td>${weightRaw.toFixed(1)}</td>
-          <td>${weightRounded}</td>
+          <td>${weight} кг</td>
+          <td>${rounded} кг</td>
         </tr>`;
       });
 
@@ -273,8 +278,8 @@
           <td>${i}</td>
           <td>1</td>
           <td>${percent}%</td>
-          <td>${raw.toFixed(1)}</td>
-          <td>${rounded}</td>
+          <td>${raw.toFixed(1)} кг</td>
+          <td>${rounded} кг</td>
         </tr>`;
       }
 
