@@ -1,8 +1,5 @@
 <!-- ![](./public/screenshot.png) -->
 
-# pavry.github.io
-🌐 My personal website.
-
 ## Getting Started
 You can get started by cloning the project to your local machine. Make sure you have [Node.js](https://nodejs.org/) installed before you begin.
 
