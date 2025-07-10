@@ -1,7 +1,7 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 
-const projects = ['pavry.github.io', 'Cheat-Sheet-for-Data-Analysts', 'lift-plan', 'md-flashcards']
+const projects = ['Cheat-Sheet-for-Data-Analysts', 'pavry.github.io', 'lift-plan', 'md-flashcards']
 const repos = ref([]);
 
 onMounted(async () => {
