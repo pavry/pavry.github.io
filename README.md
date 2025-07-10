@@ -1,4 +1,4 @@
-<!-- ![](./public/screenshot.png) -->
+<img alt="image" src="https://github.com/user-attachments/assets/e3b67350-0db9-4295-9888-5a17f1467318" />
 
 ## Getting Started
 You can get started by cloning the project to your local machine. Make sure you have [Node.js](https://nodejs.org/) installed before you begin.
